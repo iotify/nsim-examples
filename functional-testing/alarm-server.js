@@ -31,6 +31,7 @@ client.on('message', function (topic, message) {
   // Check if parsed payload is valid and contains temperature
   if (cmd && cmd.temperature)
   {
+     console.log("Received temperature "+cmd.temperature)
      client.publish('/iotify/command/0', JSON.stringify({
         alarm: (cmd.temperature > 80) ? true: false
      }))
