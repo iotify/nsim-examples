@@ -12,12 +12,12 @@ You could run the code below in your browser.
   url: 'https://raw.githubusercontent.com/iotify/nsim-examples/master/functional-testing/alarm-server.js'
    })
   .then(function (response) {
-    console.log(response);
+  
     var notebook = RunKit.createNotebook({
       // the parent element for the new notebook
       element: document.getElementById("code-element"),
       // specify the source of the notebook
-      source: response.toString()
+      source: response.data
       })
   });
   
