@@ -7,8 +7,15 @@
 var mqtt = require('mqtt')
 var client  = mqtt.connect('mqtt://broker.hivemq.com:1883')
 
+//!!!! Important - change the topic below to match the client settings !!!!!
+const topic = '/[default]/temperature/0'
+
+if (topic.includes('[default]')){    
+    console.error('Did you forgot to change the topic?')
+    process.exit(0);
+}
 client.on('connect', function () {
-  client.subscribe('/[##myuniquetopic##]/temperature/0', function (err) {
+  client.subscribe(topic, function (err) {
     if (err) {
       console.error('Error subscribing to the topic');
     }
