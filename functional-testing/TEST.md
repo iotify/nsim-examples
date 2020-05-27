@@ -1,9 +1,8 @@
 ## Welcome to the Simple Alarm Server Example
-
 This page will load and show a code example. 
 
-<code id="code-element"></code>
-   
+
+<div id="code-element"></div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
       axios({
@@ -14,4 +13,3 @@ This page will load and show a code example.
          document.getElementById("code-element").innerHTML = response.data;
       });
 </script>
-
