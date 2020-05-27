@@ -6,4 +6,4 @@ Click on the links below to follow the examples.
 
 ### IoT Functional Testing
 
-[Simple Alarm Server](/functional-testing)
+[Simple Alarm Server](functional-testing)
