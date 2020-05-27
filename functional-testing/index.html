@@ -1,11 +1,17 @@
-<h3 style="text-align: center;">Welcome to Simple Alarm Server Example</h3>
+<h1 style="text-align: center;">Welcome to the Simple Alarm Server Example</h1>
+You could run the code below in your browser. 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script src="https://embed.runkit.com" data-element-id="my-element"></script>
+<script src="https://embed.runkit.com"></script>
+<div id="code-element"></div>
 
-<!-- anywhere else on your page -->
-<div id="my-element">// GeoJSON!
-var getJSON = require("async-get-json");
+<script>
+  
+  var notebook = RunKit.createNotebook({
+    // the parent element for the new notebook
+    element: document.getElementById("code-element"),
+    // specify the source of the notebook
+    source: "// GeoJSON!\nvar getJSON = require(\"async-get-json\");\n\nawait getJSON(\"https://storage.googleapis.com/maps-devrel/google.json\");"
+})
+</script>
 
-await getJSON("https://storage.googleapis.com/maps-devrel/google.json");
-
-</div>
