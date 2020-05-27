@@ -1,6 +1,6 @@
 ## A Simple MQTT Alarm Server Example
 
-This is a demonstration of a simple MQTT program which will listen to the incoming temperature sensor data and will instruct it to turn the alarm ON if the temperature exceeds a certain threshold. 
+This is a demonstration of a simple MQTT program which will listen to the incoming temperature sensor data and will instruct it to turn the alarm ON if the temperature exceeds a certain threshold. If you are seeing this text unformatted, go to the correct github page [here](https://iotify.github.io/nsim-examples/functional-testing/) to see it live in action. 
 
 The code embedded in this document will load the alarm-server.js file and run it in your browser via the embedded runkit plugin. 
 Click on the green run icon below to see the output. 
