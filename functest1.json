@@ -1,0 +1,38 @@
+{
+  "name": "functest1",
+  "type": "network",
+  "json": {
+    "name": "functest1",
+    "message": "{const threshold=80;if(state.temperature>threshold){assert(state.alarm===true,\"Alarm not triggered when temperature exceeded \"+threshold)}state.temperature=volatile({min:60,max:100,delta:10,key:\"myvariable\"});return JSON.stringify(state)}",
+    "messageString": "{\n     \n    const threshold = 80;\n    if (state.temperature > threshold)\n    {\n        assert(state.alarm === true, \"Alarm not triggered when temperature exceeded \"+threshold)\n    }\n    // Increase the temperature randomly by max 10 degrees on each iteration\n\t  state.temperature = volatile({min:60, max: 100, delta:10, key:'myvariable'})\n    \n    return JSON.stringify(state);\n}",
+    "options": {
+      "username": "",
+      "password": "",
+      "key": "",
+      "cert": "",
+      "ca": "",
+      "rejectUnauthorized": true,
+      "clientId": "client_%d",
+      "keepalive": 10,
+      "connectTimeout": 10000
+    },
+    "custom": {
+      "init": "{state.temperature=75;state.alarm=false}",
+      "initString": "{\n  state.temperature = 75;  // set temperature value to 75 degree\n  state.alarm = false;  // Alarm is Off by default\n}",
+      "finish": "{}",
+      "finishString": "{\n  //passed parameters to this function are:   \n  //state: current object state, passed as reference   \n    \n    \n  //no need for return \n}\n",
+      "sub": "{console.log(\"Command Received\",response);let cmd=JSON.parse(response);if(cmd.alarm){console.log(\"Alarm is triggered by the server\");state.alarm=true}else{console.log(\"Alarm is Switched off\");state.alarm=false}}",
+      "subString": "{ \n  console.log(\"Command Received\", response);              \n  \n  let cmd = JSON.parse(response);\n  if (cmd.alarm)\n  {\n      console.log(\"Alarm is triggered by the server\")      \n      state.alarm = true;\n  }\n  else  {\n      console.log(\"Alarm is Switched off\")      \n      state.alarm = false;\n  }\n}",
+      "subscribe": "/abc123/command/{{client()}}"
+    },
+    "topic": "/abc123/temperature/{{client()}}",
+    "protocol": "mqtt",
+    "transport": "mqtt",
+    "host": "broker.hivemq.com:1883",
+    "endpoint": "mqtt://broker.hivemq.com:1883",
+    "msgOptions": {
+      "qos": 0,
+      "retain": false
+    }
+  }
+}
