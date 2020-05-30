@@ -25,7 +25,6 @@
       "sub": "{console.log(\"Received Response\",response);try{let res=JSON.parse(response);if(res.hasOwnProperty(\"ignition\"))state.ignition=res.ignition}catch(e){}}",
       "subString": "{ \n  //passed parameters to this function are:               \n  //topic: URL for which response is received (string)               \n  //response: body of the received message (Buffer)               \n  //state: current object state, passed as a reference    \n  console.log(\"Received Response\", response);\n  try{\n      let res = JSON.parse(response);\n      if (res.hasOwnProperty('ignition'))\n        state.ignition = res.ignition     \n  }\n  catch(e){\n      \n  }\n\n  //no need for return \n}\n"
     },
-    "simulation_id": "geofencing-akash-goswami",
     "protocol": "http",
     "transport": "https",
     "host": "x2kru.sse.codesandbox.io",
