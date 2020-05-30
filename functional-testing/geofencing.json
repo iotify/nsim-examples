@@ -1,0 +1,35 @@
+{
+  "name": "geofencing",
+  "type": "network",
+  "json": {
+    "name": "geofencing",
+    "message": "{if(state.ignition){state.location=drive({start:\"Paris,FR\",end:\"Lille, FR\"})}let payload={lat:state.location.latitude,lng:state.location.longitude,client:state.client,ignition:state.ignition};return JSON.stringify(payload)}",
+    "messageString": "{\n     \n    if (state.ignition){\n        //Update location if ignition is on\n        state.location = drive({start:'Paris,FR', end:'Lille, FR'});\n    }\n    let payload = {\n        lat: state.location.latitude, \n        lng: state.location.longitude, \n        client: state.client,\n        ignition: state.ignition\n    }\n    \n    return JSON.stringify(payload);\n}",
+    "options": {
+      "username": "",
+      "password": "",
+      "key": "",
+      "cert": "",
+      "ca": "",
+      "rejectUnauthorized": true,
+      "method": "POST",
+      "headers": {},
+      "timeout": 10000,
+      "useQuerystring": false
+    },
+    "custom": {
+      "init": "{state.ignition=true;state.client=\"iotify_\"+client()}",
+      "initString": "{\n    state.ignition = true;\n    state.client = 'iotify_'+client();\n    \n}\n",
+      "finish": "{}",
+      "finishString": "{\n  //passed parameters to this function are:   \n  //state: current object state, passed as reference   \n    \n    \n  //no need for return \n}\n",
+      "sub": "{console.log(\"Received Response\",response);try{let res=JSON.parse(response);if(res.hasOwnProperty(\"ignition\"))state.ignition=res.ignition}catch(e){}}",
+      "subString": "{ \n  //passed parameters to this function are:               \n  //topic: URL for which response is received (string)               \n  //response: body of the received message (Buffer)               \n  //state: current object state, passed as a reference    \n  console.log(\"Received Response\", response);\n  try{\n      let res = JSON.parse(response);\n      if (res.hasOwnProperty('ignition'))\n        state.ignition = res.ignition     \n  }\n  catch(e){\n      \n  }\n\n  //no need for return \n}\n"
+    },
+    "simulation_id": "geofencing-akash-goswami",
+    "protocol": "http",
+    "transport": "https",
+    "host": "x2kru.sse.codesandbox.io",
+    "endpoint": "https://x2kru.sse.codesandbox.io",
+    "url": "/endpoint"
+  }
+}
