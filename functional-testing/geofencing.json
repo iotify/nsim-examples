@@ -3,8 +3,8 @@
   "type": "network",
   "json": {
     "name": "geofencing",
-    "message": "{if(state.ignition){state.location=drive({start:\"Paris,FR\",end:\"Lille, FR\"})}let payload={lat:state.location.latitude,lng:state.location.longitude,client:state.client,ignition:state.ignition};return JSON.stringify(payload)}",
-    "messageString": "{\n     \n    if (state.ignition){\n        //Update location if ignition is on\n        state.location = drive({start:'Paris,FR', end:'Lille, FR'});\n    }\n    let payload = {\n        lat: state.location.latitude, \n        lng: state.location.longitude, \n        client: state.client,\n        ignition: state.ignition\n    }\n    \n    return JSON.stringify(payload);\n}",
+    "message": "{if(state.ignition){let location=drive({start:\"Paris,FR\",end:\"Lille, FR\",interval:60});if(state.start==undefined){state.start=location}if(state.location){state.odometer+=geolib.getDistance({latitude:location.latitude,longitude:location.longitude},{latitude:state.location.latitude,longitude:state.location.longitude})}state.distance=geolib.getDistance({latitude:location.latitude,longitude:location.longitude},{latitude:state.start.latitude,longitude:state.start.longitude});state.location=location}let payload={lat:state.location.latitude,lng:state.location.longitude,client:state.client,odometer:state.odometer,radialDistance:state.distance,ignition:state.ignition};assert(state.distance<1e3,\"The vehicle should not be allowed to travel more than 1000 meters\");return JSON.stringify(payload)}",
+    "messageString": "{\n\n    if (state.ignition){\n        //Update location if ignition is on\n        let location = drive({start:'Paris,FR', end:'Lille, FR', interval:60});\n        \n        if (state.start == undefined){\n            state.start = location;\n        }\n        \n        if (state.location){\n            state.odometer += geolib.getDistance(\n              { latitude: location.latitude, longitude: location.longitude },\n              { latitude: state.location.latitude, longitude: state.location.longitude }\n            );\n        }\n        \n        state.distance = geolib.getDistance(\n          { latitude: location.latitude, longitude: location.longitude},\n          { latitude: state.start.latitude, longitude: state.start.longitude }\n        );       \n        state.location = location;\n    }\n    \n    let payload = {\n        lat: state.location.latitude, \n        lng: state.location.longitude, \n        client: state.client,\n        odometer: state.odometer,\n        radialDistance: state.distance, \n        ignition: state.ignition\n    }\n    \n    // Assertion that the vehicle shouldn't be allowed to travel more than 1000m.\n    assert((state.distance < 1000), \"The vehicle should not be allowed to travel more than 1000 meters\");\n    \n    \n    return JSON.stringify(payload);\n}",
     "options": {
       "username": "",
       "password": "",
@@ -18,12 +18,12 @@
       "useQuerystring": false
     },
     "custom": {
-      "init": "{state.ignition=true;state.client=\"iotify_\"+client()}",
-      "initString": "{\n    state.ignition = true;\n    state.client = 'iotify_'+client();\n    \n}\n",
+      "init": "{state.ignition=true;state.client=\"iotify_\"+client();state.odometer=0}",
+      "initString": "{\n    state.ignition = true;\n    state.client = 'iotify_'+client();\n    state.odometer = 0;\n    \n}\n",
       "finish": "{}",
       "finishString": "{\n  //passed parameters to this function are:   \n  //state: current object state, passed as reference   \n    \n    \n  //no need for return \n}\n",
-      "sub": "{console.log(\"Received Response\",response);try{let res=JSON.parse(response);if(res.hasOwnProperty(\"ignition\"))state.ignition=res.ignition}catch(e){}}",
-      "subString": "{ \n  //passed parameters to this function are:               \n  //topic: URL for which response is received (string)               \n  //response: body of the received message (Buffer)               \n  //state: current object state, passed as a reference    \n  console.log(\"Received Response\", response);\n  try{\n      let res = JSON.parse(response);\n      if (res.hasOwnProperty('ignition'))\n        state.ignition = res.ignition     \n  }\n  catch(e){\n      \n  }\n\n  //no need for return \n}\n"
+      "sub": "{console.log(\"Received Response\",response);try{let res=JSON.parse(response);if(res.hasOwnProperty(\"ignition\"))state.ignition=res.ignition}catch(e){console.log(\"Unable to parse the received command\",e)}}",
+      "subString": "{ \n  //passed parameters to this function are:               \n  //topic: URL for which response is received (string)               \n  //response: body of the received message (Buffer)               \n  //state: current object state, passed as a reference    \n  console.log(\"Received Response\", response);\n  try{\n      let res = JSON.parse(response);\n      if (res.hasOwnProperty('ignition'))\n        state.ignition = res.ignition     \n  }\n  catch(e){\n      console.log(\"Unable to parse the received command\", e)\n  }\n\n  //no need for return \n}\n"
     },
     "protocol": "http",
     "transport": "https",
