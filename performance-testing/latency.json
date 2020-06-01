@@ -1,0 +1,38 @@
+{
+  "name": "latency",
+  "type": "network",
+  "json": {
+    "name": "latency",
+    "message": "{var payload={time:moment.now(),client:client()};return JSON.stringify(payload)}",
+    "messageString": "{\n     \n\tvar payload = {\n\t    time: moment.now(),\n\t    client: client()\n\t    \n\t}\n    return JSON.stringify(payload);\n}",
+    "options": {
+      "username": "",
+      "password": "",
+      "key": "",
+      "cert": "",
+      "ca": "",
+      "rejectUnauthorized": true,
+      "clientId": "client_%d",
+      "keepalive": 10,
+      "connectTimeout": 10000
+    },
+    "custom": {
+      "init": "{}",
+      "initString": "{\n  //passed parameters to this function are:   \n  //state: current object state, passed as reference   \n  //You can initialize the state here. E.g. create a unique GUID for the client   \n    \n  //state.guid = chance.guid();    \n    \n  //no need for return \n}\n",
+      "finish": "{}",
+      "finishString": "{\n  //passed parameters to this function are:   \n  //state: current object state, passed as reference   \n    \n    \n  //no need for return \n}\n",
+      "sub": "{var obj=JSON.parse(response);if(typeof obj===\"object\"){var delta=moment.now()-obj.time;metric.add(\"latency_qos0_\"+jobClients(),delta)}}",
+      "subString": "{ \n  //passed parameters to this function are:               \n  //topic: URL for which response is received (string)               \n  //response: body of the received message (Buffer)               \n  //state: current object state, passed as a reference               \n  \n   var obj = JSON.parse(response);\n   if (typeof(obj) === 'object'){\n       var delta = moment.now()- obj.time;\n       metric.add('latency_qos0_'+jobClients(), delta);\n   }\n   \n  //no need for return \n}\n",
+      "subscribe": "/latency/{{client()}}"
+    },
+    "topic": "/latency/{{client()}}",
+    "protocol": "mqtt",
+    "transport": "mqtt",
+    "host": "broker.hivemq.com:1883",
+    "endpoint": "mqtt://broker.hivemq.com:1883",
+    "msgOptions": {
+      "qos": 0,
+      "retain": false
+    }
+  }
+}
