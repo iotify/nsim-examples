@@ -1,0 +1,35 @@
+{
+  "name": "losant-connector",
+  "type": "network",
+  "json": {
+    "name": "losant-connector",
+    "message": "{var payload={hello:\"world\"};return JSON.stringify(payload)}",
+    "messageString": "{\n     \n\tvar payload = {\n\t    hello: \"world\"\n\t}\n    return JSON.stringify(payload);\n}",
+    "options": {
+      "username": "<ACCESS-KEY>",
+      "password": "<ACCESS-SECRET>",
+      "key": "",
+      "cert": "",
+      "ca": "",
+      "rejectUnauthorized": true,
+      "clientId": "<DEVICE-ID>",
+      "keepalive": 10,
+      "connectTimeout": 10000
+    },
+    "custom": {
+      "init": "{}",
+      "initString": "{\n  //passed parameters to this function are:   \n  //state: current object state, passed as reference   \n  //You can initialize the state here. E.g. create a unique GUID for the client   \n    \n  //state.guid = chance.guid();    \n    \n  //no need for return \n}\n",
+      "finish": "{}",
+      "finishString": "{\n  //passed parameters to this function are:   \n  //state: current object state, passed as reference   \n    \n    \n  //no need for return \n}\n"
+    },
+    "topic": "losant/<DEVICE-ID>/state",
+    "protocol": "mqtt",
+    "transport": "mqtts",
+    "host": "broker.losant.com",
+    "endpoint": "mqtts://broker.losant.com",
+    "msgOptions": {
+      "qos": 0,
+      "retain": false
+    }
+  }
+}
