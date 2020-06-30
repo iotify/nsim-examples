@@ -1,0 +1,36 @@
+{
+  "name": "GCloud-HTTP",
+  "type": "network",
+  "json": {
+    "name": "GCloud-HTTP",
+    "message": "{var content={hello:\"world\"};var subfolder={};var payload={};payload.binary_data=Buffer.from(JSON.stringify(content)).toString(\"base64\");payload.sub_folder=Buffer.from(JSON.stringify(subfolder)).toString(\"base64\");return JSON.stringify(payload,null,2)}",
+    "messageString": "{ \n  // Contents has your actual message\n  var content = { hello: \"world\"};\n  \n  // you could also specify a subfolder pattern here. \n  var subfolder = {};\n\n  var payload = {};\n\n  // we need to base64 encode the values for each of the two keys separately\n  payload.binary_data = Buffer.from(JSON.stringify(content)).toString('base64');\n  payload.sub_folder = Buffer.from(JSON.stringify(subfolder)).toString('base64');\n  \n  //return a string value which will be sent as the message payload\n  return JSON.stringify(payload, null, 2);\n}",
+    "options": {
+      "username": "",
+      "password": "",
+      "key": "",
+      "cert": "",
+      "ca": "",
+      "rejectUnauthorized": true,
+      "method": "POST",
+      "headers": {
+        "authorization": "Bearer {{state.token}}",
+        "Content-Type": "application/json"
+      },
+      "timeout": 10000,
+      "useQuerystring": false
+    },
+    "custom": {
+      "init": "{var private_key=`\\n---- Paste the entire contents of your private_key.pem file here including the\\n---- header and footer line\\n  `;var token={iat:parseInt(moment().valueOf()/1e3),exp:parseInt(moment().valueOf()/1e3)+60*60*24,aud:\"iotify-200307\"};state.token=jwt.sign(token,private_key,{algorithm:\"RS256\"})}",
+      "initString": "{\n  var private_key = `\n---- Paste the entire contents of your private_key.pem file here including the\n---- header and footer line\n  `;\n  \n  var token = {\n        'iat': parseInt(moment().valueOf() / 1000),\n        'exp': parseInt(moment().valueOf() / 1000) + 60 * 60 * 24,  // 24 hours is the maximum validity time. The token could be cached if performance of jwt.sign is a problem\n        \n        // ****** Important: Replace your Project ID below as well*****        \n        'aud': 'iotify-200307' \n   };\n      \n   state.token = jwt.sign(token, private_key, { algorithm: 'RS256' });\n\n  //no need for return \n}",
+      "finish": "{}",
+      "finishString": "{\n  //passed parameters to this function are:   \n  //state: current object state, passed as reference   \n    \n    \n  //no need for return \n}\n"
+    },
+    "simulation_id": "GCloud-HTTP-robin-iotify",
+    "protocol": "http",
+    "transport": "https",
+    "host": "cloudiotdevice.googleapis.com",
+    "endpoint": "https://cloudiotdevice.googleapis.com",
+    "url": "/v1/projects/<PROJECT-ID>/locations/<REGION>/registries/<REGISTRY-ID>/devices/<DEVICE-ID>:publishEvent"
+  }
+}
